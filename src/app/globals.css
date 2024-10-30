@@ -2,30 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
+/* Body styles for light and dark modes */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-white text-black; /* Light mode styles */
 }
 
+body.dark {
+  @apply bg-gray-900 text-white; /* Dark mode styles */
+}
+
+/* Other styles */
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;
+  display: none; /* Hide scrollbar for WebKit browsers */
 }
 
-/* Hide scrollbar for other browsers */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
