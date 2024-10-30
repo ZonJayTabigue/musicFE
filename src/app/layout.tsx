@@ -24,7 +24,6 @@ export default function RootLayout({
 }>) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Load the user's preference from local storage
   useEffect(() => {
     const storedMode = localStorage.getItem('darkMode');
     if (storedMode === 'true') {
@@ -35,7 +34,6 @@ export default function RootLayout({
     }
   }, []);
 
-  // Toggle dark mode and store the preference
   const toggleDarkMode = () => {
     setIsDarkMode((prev) => !prev);
     const newMode = !isDarkMode;

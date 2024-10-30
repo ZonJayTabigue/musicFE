@@ -56,7 +56,6 @@ describe('AlbumPage Component', () => {
   test('displays album details after loading', async () => {
     render(<AlbumPage />);
 
-    // Wait for the album data to be displayed
     await waitFor(() => {
       expect(screen.getByText(mockAlbum.album_title)).toBeInTheDocument();
       expect(screen.getByText(mockAlbum.artist_name)).toBeInTheDocument();

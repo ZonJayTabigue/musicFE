@@ -33,7 +33,6 @@ const mockAlbums: Album[] = [
   },
 ];
 
-// Mock the API calls with a delay to simulate loading
 jest.mock('../utils/api/albums/getAll', () => ({
   getAllAlbums: jest.fn().mockImplementation(() =>
     new Promise((resolve) => setTimeout(() => resolve(mockAlbums), 100))
@@ -46,7 +45,6 @@ jest.mock('../utils/api/albums/searchAlbums', () => ({
   ),
 }));
 
-// Helper function to render HomePage with Redux Provider
 const renderHomePage = () =>
   render(
     <Provider store={store}>
@@ -82,7 +80,6 @@ describe('HomePage Component', () => {
   test('performs search and displays results', async () => {
     renderHomePage();
 
-    // Simulate entering search term and clicking the search button
     const searchInput = screen.getByPlaceholderText('Search albums or artists...');
     fireEvent.change(searchInput, { target: { value: 'Test' } });
     

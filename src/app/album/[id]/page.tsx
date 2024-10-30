@@ -22,7 +22,6 @@ export default function AlbumPage() {
     fetchAlbum();
   }, [id]);
 
-  // Memoize the total duration calculation
   const totalDuration = useMemo(() => {
     if (!album?.tracks) return 0;
 
