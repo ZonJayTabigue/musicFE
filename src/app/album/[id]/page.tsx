@@ -2,11 +2,12 @@
 import Image from 'next/image';
 import { Album } from '@/utils/constants/interfaces';
 import { useEffect, useState, useMemo } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { getAlbum } from '@/utils/api/albums/getAlbum';
 
 export default function AlbumPage() {
   const { id } = useParams();
+  const router = useRouter();
   const [album, setAlbum] = useState<Album | null>(null);
 
   useEffect(() => {
@@ -38,9 +39,17 @@ export default function AlbumPage() {
 
   return (
     <div className="container mx-auto mt-10 p-4">
+      {/* Back Button */}
+      <button
+        onClick={() => router.push('/')}
+        className="font-semibold hover:underline mb-4"
+      >
+        &larr; Back to Home
+      </button>
+
       <div className="flex flex-col md:flex-row">
         {/* Fixed Info Section */}
-        <div className="flex-shrink-0 w-full md:w-2/4 md:mr-6">
+        <div className="flex-shrink-0 w-full md:w-2/5 md:mr-6">
           <Image
             src={album.album_cover_xl}
             alt={album.album_title}
@@ -54,14 +63,13 @@ export default function AlbumPage() {
           <p className="text-lg">
             Songs: {album.tracks.length} <span>&#8226;</span> {totalHours} {totalHours > 1 ? 'hours' : 'hour'} and {remainingMinutes} minutes
           </p>
-          <p className="text-sm text-gray-500">Release: {new Date(album.release_date).toLocaleDateString()}</p>
+          <p className="text-sm text-gray-500">Release Date: {new Date(album.release_date).toLocaleDateString()}</p>
         </div>
 
         {/* Track List Section */}
         <div className="md:ml-6 mt-4 md:mt-0 flex-grow">
           <h2 className="text-2xl font-semibold mt-6">Tracks</h2>
-          {/* Scrollable Track List */}
-          <div className="overflow-y-auto max-h-[80vh] scrollbar-hide mt-2"> {/* Reduced height for tracks list */}
+          <div className="overflow-y-auto max-h-[80vh] scrollbar-hide mt-2">
             <ul>
               {album.tracks.map((track, index) => (
                 <li key={index} className="py-2 border-b flex items-center justify-between">
@@ -70,7 +78,13 @@ export default function AlbumPage() {
                     <span className="text-gray-400 text-sm">Duration: {track.duration}</span>
                   </div>
                   {track.preview && (
-                    <audio controls className="ml-4">
+                    <audio
+                      controls
+                      className="ml-4 h-8 w-40"
+                      style={{
+                        minWidth: '260px',
+                      }}
+                    >
                       <source src={track.preview} type="audio/mpeg" />
                       Your browser does not support the audio element.
                     </audio>

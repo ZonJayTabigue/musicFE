@@ -1,23 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Album } from '@/utils/constants/interfaces';
 
-interface AlbumsState {
+interface AlbumState {
   albums: Album[];
 }
 
-const initialState: AlbumsState = {
+const initialState: AlbumState = {
   albums: [],
 };
 
-const albumsSlice = createSlice({
+const albumSlice = createSlice({
   name: 'albums',
   initialState,
   reducers: {
-    setAlbums(state, action: PayloadAction<Album[] | null>) {
-      state.albums = action.payload ?? []; // Default to empty array if undefined
+    setAlbums: (state, action: PayloadAction<Album[]>) => {
+      state.albums = action.payload;
+    },
+    addAlbums: (state, action: PayloadAction<Album[]>) => {
+      state.albums = [...state.albums, ...action.payload];
     },
   },
 });
 
-export const { setAlbums } = albumsSlice.actions;
-export default albumsSlice.reducer;
+export const { setAlbums, addAlbums } = albumSlice.actions;
+
+export default albumSlice.reducer;

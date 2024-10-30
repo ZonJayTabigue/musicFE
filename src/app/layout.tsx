@@ -1,8 +1,10 @@
-'use client'
+'use client';
 import localFont from "next/font/local";
 import "./globals.css";
 import { Provider } from 'react-redux';
 import store from "@/store/store";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,12 +22,47 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Load the user's preference from local storage
+  useEffect(() => {
+    const storedMode = localStorage.getItem('darkMode');
+    if (storedMode === 'true') {
+      setIsDarkMode(true);
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, []);
+
+  // Toggle dark mode and store the preference
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
+    const newMode = !isDarkMode;
+    localStorage.setItem('darkMode', String(newMode));
+    document.body.classList.toggle('dark', newMode);
+  };
+
   return (
     <Provider store={store}>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <button 
+            onClick={toggleDarkMode} 
+            className="fixed top-4 right-4 p-2 bg-transparent rounded-md focus:outline-none transition duration-300"
+            aria-label="Toggle Dark Mode"
+          >
+            <Image 
+              src="/darkmode.png" 
+              alt={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'} 
+              width={34}
+              height={34}
+              className="h-6 w-6 dark:invert"
+              // priority
+            />
+          </button>
           {children}
         </body>
       </html>
